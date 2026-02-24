@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iframe youtube</title>
+    <style>
+        .container {
+            width: 500px;
+        }
+
+        .video {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+        }
+
+        .video iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="video">
+            <!--No src coloque a url completa onde hospedou o vídeo-->
+            <!--v= é o id do vídeo que deseja exibir em tela-->
+            <!--i= é o id do iframe para controle interno do app-->
+            <iframe id="iframe01" src="/player.html?v=Ejkb_YpuHWs&loop=1&i=iframe01" frameborder="0"
+                allowfullscreen></iframe>
+        </div>
+    </div>
+</body>
+
+<script>
+    //listener para comunição pelo navegador com postMessage
+    window.addEventListener("message", function (event) {
+        //if (event.origin !== 'url aqui para segurança do app') return;
+        const data = event.data;
+        if (data.type === "youtube-play") {
+            console.log("Vídeo iniciou:", data.iframeId);
+        }
+        if (data.type === "youtube-pause") {
+            console.log("Vídeo pausou:", data.iframeId);
+        }
+        if (data.type === "youtube-ended") {
+            console.log("Vídeo terminou:", data.iframeId);
+        }
+    });
+</script>
+
+</html>
